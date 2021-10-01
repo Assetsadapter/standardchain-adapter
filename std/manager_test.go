@@ -29,6 +29,7 @@ import (
 	"github.com/blocktree/quorum-adapter/quorum"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/influxdata/influxdb/pkg/testing/assert"
 )
 
 var (
@@ -60,6 +61,14 @@ func TestFixGasLimit(t *testing.T) {
 	fixGasLimit := new(big.Int)
 	fixGasLimit.SetString(fixGasLimitStr, 10)
 	fmt.Printf("fixGasLimit: %d\n", fixGasLimit.Int64())
+}
+
+func TestWalletManager_addressCustom(t *testing.T) {
+	// wm := testNewWalletManager()
+	stAddr := "sd855e6f3023E60B46e2A845Fe00A233a82f772400"
+	ethAddr := "0x855e6f3023e60b46e2a845fe00a233a82f772400"
+	deAddr := CustomAddressDecode(stAddr)
+	assert.Equal(t, ethAddr, deAddr, "the two address must the same")
 }
 
 func TestWalletManager_GetAddrBalance(t *testing.T) {

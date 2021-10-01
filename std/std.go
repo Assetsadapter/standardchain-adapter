@@ -16,6 +16,9 @@
 package std
 
 import (
+	"strings"
+
+	std_addrdec "github.com/Assetsadapter/standardchain-adapter/stdchain_addrdec"
 	"github.com/blocktree/openwallet/v2/log"
 	"github.com/blocktree/quorum-adapter/quorum"
 )
@@ -31,12 +34,25 @@ type WalletManager struct {
 func NewWalletManager() *WalletManager {
 	wm := WalletManager{}
 	wm.WalletManager = quorum.NewWalletManager()
+	wm.Decoder = &std_addrdec.Default
 	wm.Config = quorum.NewConfig(Symbol)
 	wm.Log = log.NewOWLogger(wm.Symbol())
+	wm.CustomAddressEncodeFunc = CustomAddressEncode
+	wm.CustomAddressDecodeFunc = CustomAddressDecode
 	return &wm
 }
 
 //FullName 币种全名
 func (wm *WalletManager) FullName() string {
 	return "std"
+}
+
+// 0x ===>sd
+func CustomAddressEncode(address string) string {
+	return strings.Replace(address, "0x", "sd", 1)
+}
+
+// sd  ====>sd
+func CustomAddressDecode(address string) string {
+	return strings.Replace(address, "sd", "0x", 1)
 }
