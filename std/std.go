@@ -49,7 +49,7 @@ func (wm *WalletManager) FullName() string {
 
 // 0x ===>sd
 func CustomAddressEncode(address string) string {
-	return strings.Replace(address, "0x", "sd", 1)
+	return strings.Replace(std_addrdec.ChecksumAddmress(address), "0x", "sd", 1)
 }
 
 // sd  ====>sd
